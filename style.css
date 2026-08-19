@@ -2,12 +2,17 @@
   box-sizing: border-box;
 }
 
+html {
+  overscroll-behavior-y: contain;
+}
+
 body {
   background: #F3EEE0;
   margin: 0;
   padding: 16px;
   font-family: 'Space Mono', monospace;
   color: #2B2420;
+  overscroll-behavior-y: contain;
 }
 
 .container {
