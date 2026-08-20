@@ -464,6 +464,11 @@ h3 {
   color: #2B2420;
 }
 
+/* === Perbaikan bug teks tidak kelihatan di dark mode === */
+body.dark .custom-select-trigger {
+  color: #E8E1D0;
+}
+
 .custom-select-arrow {
   color: #7A7060;
   font-size: 14px;
@@ -637,6 +642,11 @@ body.dark .tag-kategori,
 body.dark .backup-tombol .btn-backup-outline,
 body.dark .modal-tombol .btn-batal {
   border-color: #4A4436;
+  color: #E8E1D0;
+}
+
+/* === Perbaikan bug teks tidak kelihatan di dark mode === */
+body.dark .custom-select-trigger {
   color: #E8E1D0;
 }
 
