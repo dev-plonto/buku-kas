@@ -4,6 +4,7 @@ html {
 
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -13,6 +14,7 @@ body {
   font-family: 'Space Mono', monospace;
   color: #2B2420;
   overscroll-behavior-y: contain;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .container {
@@ -43,6 +45,7 @@ body {
   padding: 6px 9px;
   border-radius: 3px;
   letter-spacing: 0.5px;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 h1 {
@@ -68,6 +71,11 @@ h1 {
   height: 40px;
   font-size: 16px;
   cursor: pointer;
+  transition: transform 0.08s ease, background-color 0.2s ease;
+}
+
+.theme-btn:active {
+  transform: scale(0.9);
 }
 
 /* === Saldo Box (nota style) === */
@@ -79,6 +87,7 @@ h1 {
   padding: 24px 20px;
   margin-bottom: 18px;
   overflow: hidden;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .saldo-box p {
@@ -123,6 +132,7 @@ h1 {
   border: 1px dashed #C9BFA8;
   padding: 12px;
   text-align: center;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .masuk p, .keluar p {
@@ -152,6 +162,7 @@ form input, form select, form button {
   font-family: 'Space Mono', monospace;
   color: #2B2420;
   border-radius: 0;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.08s ease;
 }
 
 form button {
@@ -163,6 +174,10 @@ form button {
   text-transform: uppercase;
   font-size: 13px;
   padding: 13px;
+}
+
+form button:active {
+  transform: scale(0.98);
 }
 
 /* === Riwayat Transaksi === */
@@ -189,6 +204,25 @@ h3 {
   align-items: center;
   font-size: 13px;
   flex-wrap: wrap;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.item-baru {
+  animation: kedipMasuk 0.6s ease;
+}
+
+@keyframes kedipMasuk {
+  0% { background-color: #EFE8D6; }
+  100% { background-color: #FFFDF8; }
+}
+
+body.dark .item-baru {
+  animation: kedipMasukGelap 0.6s ease;
+}
+
+@keyframes kedipMasukGelap {
+  0% { background-color: #33301F; }
+  100% { background-color: #24211B; }
 }
 
 .item-kiri {
@@ -226,6 +260,12 @@ h3 {
   color: #A13D2B;
   font-size: 15px;
   cursor: pointer;
+  transition: transform 0.08s ease;
+}
+
+.hapus-btn:active,
+.edit-btn:active {
+  transform: scale(0.85);
 }
 
 .edit-btn {
@@ -234,6 +274,7 @@ h3 {
   color: #7A7060;
   font-size: 14px;
   cursor: pointer;
+  transition: transform 0.08s ease;
 }
 
 .item-sedang-edit {
@@ -289,6 +330,7 @@ h3 {
   background: #FFFDF8;
   padding: 16px;
   margin-bottom: 18px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .grafik-title {
@@ -338,6 +380,7 @@ h3 {
 .grafik-bar-fill {
   background: #A13D2B;
   height: 100%;
+  transition: width 0.3s ease;
 }
 
 .grafik-kosong {
@@ -393,11 +436,13 @@ h3 {
 .bulan-bar-fill-masuk {
   background: #3F6B35;
   height: 100%;
+  transition: width 0.3s ease;
 }
 
 .bulan-bar-fill-keluar {
   background: #A13D2B;
   height: 100%;
+  transition: width 0.3s ease;
 }
 
 .bulan-bar-nilai {
@@ -406,12 +451,13 @@ h3 {
   color: #7A7060;
 }
 
-/* === Backup & Restore === */
+/* === Keamanan & Backup === */
 .backup-box {
   border: 1px dashed #C9BFA8;
   background: #FFFDF8;
   padding: 16px;
   margin-bottom: 18px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .backup-keterangan {
@@ -437,6 +483,11 @@ h3 {
   border: none;
   background: #2B2420;
   color: #F3EEE0;
+  transition: transform 0.08s ease, background-color 0.2s ease;
+}
+
+.btn-backup:active {
+  transform: scale(0.97);
 }
 
 .btn-backup-outline {
@@ -452,6 +503,7 @@ h3 {
   background: #FFFDF8;
   cursor: pointer;
   user-select: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .custom-select-trigger {
@@ -467,10 +519,14 @@ h3 {
 .custom-select-arrow {
   color: #7A7060;
   font-size: 14px;
+  transition: transform 0.15s ease;
+}
+
+.custom-select.open .custom-select-arrow {
+  transform: rotate(180deg);
 }
 
 .custom-select-options {
-  display: none;
   position: absolute;
   top: calc(100% + 2px);
   left: 0;
@@ -480,10 +536,16 @@ h3 {
   z-index: 50;
   max-height: 220px;
   overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
 }
 
 .custom-select.open .custom-select-options {
-  display: block;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 .custom-select-option {
@@ -492,6 +554,7 @@ h3 {
   font-size: 13px;
   color: #2B2420;
   border-bottom: 1px dotted #C9BFA8;
+  transition: background-color 0.1s ease;
 }
 
 .custom-select-option:last-child {
@@ -521,6 +584,12 @@ h3 {
   justify-content: center;
   z-index: 100;
   padding: 20px;
+  animation: fadeInOverlay 0.15s ease;
+}
+
+@keyframes fadeInOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .modal-box {
@@ -529,6 +598,12 @@ h3 {
   padding: 22px;
   max-width: 360px;
   width: 100%;
+  animation: modalPop 0.18s ease;
+}
+
+@keyframes modalPop {
+  from { opacity: 0; transform: scale(0.94) translateY(6px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .modal-judul {
@@ -558,6 +633,11 @@ h3 {
   font-weight: bold;
   text-transform: uppercase;
   cursor: pointer;
+  transition: transform 0.08s ease;
+}
+
+.modal-tombol button:active {
+  transform: scale(0.97);
 }
 
 .btn-hapus-konfirmasi {
@@ -570,6 +650,96 @@ h3 {
   background: transparent;
   border: 1px dashed #2B2420;
   color: #2B2420;
+}
+
+/* === Kunci PIN === */
+.pin-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #F3EEE0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.pin-box {
+  width: 100%;
+  max-width: 320px;
+  text-align: center;
+}
+
+.pin-mark {
+  display: inline-block;
+  font-size: 20px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+}
+
+.pin-judul {
+  font-family: 'Zilla Slab', serif;
+  font-weight: 700;
+  font-size: 17px;
+  margin: 0 0 18px;
+}
+
+.pin-dots {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.pin-dot {
+  width: 14px;
+  height: 14px;
+  border: 1px solid #2B2420;
+  border-radius: 50%;
+  background: transparent;
+  transition: background-color 0.1s ease, transform 0.1s ease;
+}
+
+.pin-dot.filled {
+  background: #2B2420;
+  transform: scale(1.1);
+}
+
+.pin-error {
+  font-size: 11px;
+  color: #A13D2B;
+  min-height: 16px;
+  margin: 0 0 18px;
+}
+
+.pin-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.pin-key {
+  padding: 16px 0;
+  font-family: 'Space Mono', monospace;
+  font-size: 18px;
+  font-weight: bold;
+  border: 1px dashed #C9BFA8;
+  background: #FFFDF8;
+  color: #2B2420;
+  cursor: pointer;
+  transition: transform 0.08s ease, background-color 0.15s ease;
+}
+
+.pin-key:active {
+  transform: scale(0.92);
+  background-color: #EFE8D6;
+}
+
+.pin-key-hapus {
+  font-size: 15px;
 }
 
 /* === Dark Mode (malam) === */
@@ -665,4 +835,30 @@ body.dark .modal-judul {
 
 body.dark .custom-select-trigger {
   color: #E8E1D0 !important;
+}
+
+body.dark .pin-overlay {
+  background: #1C1A16;
+}
+
+body.dark .pin-judul {
+  color: #E8E1D0;
+}
+
+body.dark .pin-dot {
+  border-color: #E8E1D0;
+}
+
+body.dark .pin-dot.filled {
+  background: #E8E1D0;
+}
+
+body.dark .pin-key {
+  background: #24211B;
+  border-color: #4A4436;
+  color: #E8E1D0;
+}
+
+body.dark .pin-key:active {
+  background-color: #33301F;
 }
