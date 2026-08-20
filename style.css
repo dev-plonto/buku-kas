@@ -464,11 +464,6 @@ h3 {
   color: #2B2420;
 }
 
-/* === Perbaikan bug teks tidak kelihatan di dark mode === */
-body.dark .custom-select-trigger {
-  color: #E8E1D0;
-}
-
 .custom-select-arrow {
   color: #7A7060;
   font-size: 14px;
@@ -608,7 +603,6 @@ body.dark .brand-sub,
 body.dark .saldo-box p,
 body.dark .masuk p,
 body.dark .keluar p,
-body.dark .tag-kategori,
 body.dark .tanggal-item,
 body.dark .grafik-label .nama-kategori,
 body.dark .bulan-label,
@@ -638,15 +632,19 @@ body.dark .custom-select-option.selected {
   background: #2E2A22;
 }
 
-body.dark .tag-kategori,
-body.dark .backup-tombol .btn-backup-outline,
+body.dark .tag-kategori {
+  border-color: #4A4436;
+  color: #E8E1D0;
+}
+
 body.dark .modal-tombol .btn-batal {
   border-color: #4A4436;
   color: #E8E1D0;
 }
 
-/* === Perbaikan bug teks tidak kelihatan di dark mode === */
-body.dark .custom-select-trigger {
+body.dark .backup-tombol .btn-backup-outline {
+  background: transparent;
+  border-color: #4A4436;
   color: #E8E1D0;
 }
 
@@ -663,4 +661,8 @@ body.dark .bulan-bar-track {
 
 body.dark .modal-judul {
   color: #E8E1D0;
+}
+
+body.dark .custom-select-trigger {
+  color: #E8E1D0 !important;
 }
