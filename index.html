@@ -2,12 +2,21 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Catatan Pengeluaran</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Zilla+Slab:wght@600;700&display=swap" rel="stylesheet">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#1C1A16">
+  <style>
+    html, body { background: #F3EEE0; }
+    html.dark-awal, html.dark-awal body { background: #1C1A16; }
+  </style>
+  <script>
+    if (localStorage.getItem('darkMode') === 'true') {
+    document.documentElement.classList.add('dark-awal');
+    }
+  </script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
