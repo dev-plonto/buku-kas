@@ -49,7 +49,7 @@
       <h3 class="grafik-title">Ringkasan Bulanan</h3>
       <div id="ringkasanBulanan"></div>
     </div>
-    
+
     <div class="backup-box">
       <h3 class="grafik-title">Cadangkan Data</h3>
       <p class="backup-keterangan">Simpan data ke file, atau pulihkan dari file backup sebelumnya.</p>
@@ -59,40 +59,42 @@
       </div>
       <input type="file" id="inputImport" accept=".json" style="display:none;">
     </div>
-    
+
     <form id="formTransaksi">
       <input type="text" id="keterangan" placeholder="Keterangan (misal: Makan siang)" required>
       <input type="number" id="jumlah" placeholder="Jumlah (contoh: 15000)" required>
-<div class="custom-select" id="selectJenis" data-value="masuk">
-  <div class="custom-select-trigger">
-    <span class="custom-select-value">Pemasukan</span>
-    <span class="custom-select-arrow">⌄</span>
-  </div>
-  <div class="custom-select-options">
-    <div class="custom-select-option selected" data-value="masuk">Pemasukan</div>
-    <div class="custom-select-option" data-value="keluar">Pengeluaran</div>
-  </div>
-</div>
 
-<div class="custom-select" id="selectKategori" data-value="Makan">
-  <div class="custom-select-trigger">
-    <span class="custom-select-value">Makan</span>
-    <span class="custom-select-arrow">⌄</span>
-  </div>
-  <div class="custom-select-options">
-    <div class="custom-select-option selected" data-value="Makan">Makan</div>
-    <div class="custom-select-option" data-value="Transport">Transport</div>
-    <div class="custom-select-option" data-value="Belanja">Belanja</div>
-    <div class="custom-select-option" data-value="Tagihan">Tagihan</div>
-    <div class="custom-select-option" data-value="Gaji">Gaji</div>
-    <div class="custom-select-option" data-value="Bonus">Bonus</div>
-    <div class="custom-select-option" data-value="Lainnya">Lainnya</div>
-  </div>
-</div>
-    <div class="tombol-form">
-      <button type="submit" id="tombolSubmit">Tambah</button>
-      <button type="button" id="tombolBatal" class="btn-batal" style="display:none;">Batal Edit</button>
-    </div>
+      <div class="custom-select" id="selectJenis" data-value="masuk">
+        <div class="custom-select-trigger">
+          <span class="custom-select-value">Pemasukan</span>
+          <span class="custom-select-arrow">⌄</span>
+        </div>
+        <div class="custom-select-options">
+          <div class="custom-select-option selected" data-value="masuk">Pemasukan</div>
+          <div class="custom-select-option" data-value="keluar">Pengeluaran</div>
+        </div>
+      </div>
+
+      <div class="custom-select" id="selectKategori" data-value="Makan">
+        <div class="custom-select-trigger">
+          <span class="custom-select-value">Makan</span>
+          <span class="custom-select-arrow">⌄</span>
+        </div>
+        <div class="custom-select-options">
+          <div class="custom-select-option selected" data-value="Makan">Makan</div>
+          <div class="custom-select-option" data-value="Transport">Transport</div>
+          <div class="custom-select-option" data-value="Belanja">Belanja</div>
+          <div class="custom-select-option" data-value="Tagihan">Tagihan</div>
+          <div class="custom-select-option" data-value="Gaji">Gaji</div>
+          <div class="custom-select-option" data-value="Bonus">Bonus</div>
+          <div class="custom-select-option" data-value="Lainnya">Lainnya</div>
+        </div>
+      </div>
+
+      <div class="tombol-form">
+        <button type="submit" id="tombolSubmit">Tambah</button>
+        <button type="button" id="tombolBatal" class="btn-batal" style="display:none;">Batal Edit</button>
+      </div>
     </form>
 
     <div class="filter-bar">
@@ -123,7 +125,28 @@
       </div>
     </div>
   </div>
-  
+
+  <div id="modalImportKonfirmasi" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+      <p class="modal-judul">Pulihkan Data?</p>
+      <p class="modal-detail" id="modalImportDetail"></p>
+      <div class="modal-tombol">
+        <button id="modalImportBatal" class="btn-batal">Batal</button>
+        <button id="modalImportLanjut" class="btn-hapus-konfirmasi">Lanjutkan</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modalPesan" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+      <p class="modal-judul" id="modalPesanJudul"></p>
+      <p class="modal-detail" id="modalPesanIsi"></p>
+      <div class="modal-tombol">
+        <button id="modalPesanOke" class="btn-hapus-konfirmasi" style="flex:1;">Oke</button>
+      </div>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
-        </html>
+</html>
