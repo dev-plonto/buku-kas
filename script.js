@@ -316,8 +316,17 @@ form.addEventListener('submit', function (e) {
     transaksi.push({ keterangan: keterangan, jumlah: jumlah, jenis: jenis, kategori: kategori, tanggal: tanggal });
   }
 
-  form.reset();
+form.reset();
   render();
+
+  setTimeout(function () {
+    const items = daftarTransaksi.querySelectorAll('li');
+    const terakhir = items[items.length - 1];
+    if (terakhir) {
+      terakhir.classList.add('item-baru');
+      setTimeout(function () { terakhir.classList.remove('item-baru'); }, 600);
+    }
+  }, 0);
 });
 
 // === Export Data ===
@@ -425,3 +434,128 @@ toggleThemeBtn.addEventListener('click', function () {
 });
 
 terapkanTema();
+
+// === Kunci PIN ===
+const pinOverlay = document.getElementById('pinOverlay');
+const pinJudul = document.getElementById('pinJudul');
+const pinDots = document.querySelectorAll('.pin-dot');
+const pinError = document.getElementById('pinError');
+const statusPinEl = document.getElementById('statusPin');
+const tombolAturPin = document.getElementById('tombolAturPin');
+const tombolNonaktifPin = document.getElementById('tombolNonaktifPin');
+
+let pinBuffer = '';
+let pinTemp = '';
+let pinMode = null; // 'unlock', 'setup-new', 'setup-confirm', 'disable-verify'
+
+function updatePinDots() {
+  pinDots.forEach(function (dot, i) {
+    dot.classList.toggle('filled', i < pinBuffer.length);
+  });
+}
+
+function tampilkanPinOverlay(mode, judul) {
+  pinMode = mode;
+  pinBuffer = '';
+  pinError.textContent = '\u00A0';
+  pinJudul.textContent = judul;
+  updatePinDots();
+  pinOverlay.style.display = 'flex';
+}
+
+function tutupPinOverlay() {
+  pinOverlay.style.display = 'none';
+  pinMode = null;
+  pinBuffer = '';
+}
+
+function updateStatusPinUI() {
+  const aktif = localStorage.getItem('pinAktif') === 'true';
+  if (aktif) {
+    statusPinEl.textContent = 'Kunci PIN aktif. App terkunci setiap dibuka.';
+    tombolAturPin.style.display = 'none';
+    tombolNonaktifPin.style.display = 'block';
+  } else {
+    statusPinEl.textContent = 'Kunci PIN belum aktif.';
+    tombolAturPin.style.display = 'block';
+    tombolNonaktifPin.style.display = 'none';
+  }
+}
+
+document.getElementById('pinKeypad').addEventListener('click', function (e) {
+  const target = e.target;
+
+  if (target.id === 'pinHapus') {
+    pinBuffer = pinBuffer.slice(0, -1);
+    updatePinDots();
+    return;
+  }
+
+  if (!target.classList.contains('pin-key') || !target.dataset.key) return;
+  if (pinBuffer.length >= 4) return;
+
+  pinBuffer += target.dataset.key;
+  updatePinDots();
+
+  if (pinBuffer.length === 4) {
+    setTimeout(function () { prosesPinLengkap(); }, 150);
+  }
+});
+
+function prosesPinLengkap() {
+  if (pinMode === 'unlock') {
+    const pinTersimpan = localStorage.getItem('pinKode');
+    if (pinBuffer === pinTersimpan) {
+      tutupPinOverlay();
+    } else {
+      pinError.textContent = 'PIN salah, coba lagi.';
+      pinBuffer = '';
+      updatePinDots();
+    }
+  } else if (pinMode === 'setup-new') {
+    pinTemp = pinBuffer;
+    tampilkanPinOverlay('setup-confirm', 'Ulangi PIN Baru');
+  } else if (pinMode === 'setup-confirm') {
+    if (pinBuffer === pinTemp) {
+      localStorage.setItem('pinKode', pinBuffer);
+      localStorage.setItem('pinAktif', 'true');
+      tutupPinOverlay();
+      updateStatusPinUI();
+      tampilkanPesan('Berhasil', 'Kunci PIN aktif. Ingat baik-baik PIN kamu.');
+    } else {
+      pinError.textContent = 'PIN tidak cocok, ulangi dari awal.';
+      pinBuffer = '';
+      pinTemp = '';
+      setTimeout(function () {
+        tampilkanPinOverlay('setup-new', 'Buat PIN Baru');
+      }, 800);
+    }
+  } else if (pinMode === 'disable-verify') {
+    const pinTersimpan = localStorage.getItem('pinKode');
+    if (pinBuffer === pinTersimpan) {
+      localStorage.removeItem('pinKode');
+      localStorage.removeItem('pinAktif');
+      tutupPinOverlay();
+      updateStatusPinUI();
+      tampilkanPesan('Berhasil', 'Kunci PIN dinonaktifkan.');
+    } else {
+      pinError.textContent = 'PIN salah, coba lagi.';
+      pinBuffer = '';
+      updatePinDots();
+    }
+  }
+}
+
+tombolAturPin.addEventListener('click', function () {
+  tampilkanPinOverlay('setup-new', 'Buat PIN Baru');
+});
+
+tombolNonaktifPin.addEventListener('click', function () {
+  tampilkanPinOverlay('disable-verify', 'Masukkan PIN untuk Nonaktifkan');
+});
+
+// Cek saat app dibuka: kalau PIN aktif, kunci dulu
+if (localStorage.getItem('pinAktif') === 'true') {
+  tampilkanPinOverlay('unlock', 'Masukkan PIN');
+}
+updateStatusPinUI();
