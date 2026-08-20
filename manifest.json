@@ -3,6 +3,7 @@
   "short_name": "Buku Kas",
   "start_url": "/buku-kas/index.html",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#1C1A16",
   "theme_color": "#1C1A16",
   "icons": [
@@ -15,6 +16,14 @@
       "src": "/buku-kas/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Tambah Transaksi",
+      "short_name": "Tambah",
+      "url": "/buku-kas/index.html#formTransaksi",
+      "icons": [{ "src": "/buku-kas/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }
