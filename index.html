@@ -51,6 +51,15 @@
     </div>
 
     <div class="backup-box">
+      <h3 class="grafik-title">Keamanan</h3>
+      <p class="backup-keterangan" id="statusPin">Kunci PIN belum aktif.</p>
+      <div class="backup-tombol">
+        <button type="button" id="tombolAturPin" class="btn-backup">Aktifkan Kunci PIN</button>
+        <button type="button" id="tombolNonaktifPin" class="btn-backup btn-backup-outline" style="display:none;">Nonaktifkan</button>
+      </div>
+    </div>
+
+    <div class="backup-box">
       <h3 class="grafik-title">Cadangkan Data</h3>
       <p class="backup-keterangan">Simpan data ke file, atau pulihkan dari file backup sebelumnya.</p>
       <div class="backup-tombol">
@@ -143,6 +152,34 @@
       <p class="modal-detail" id="modalPesanIsi"></p>
       <div class="modal-tombol">
         <button id="modalPesanOke" class="btn-hapus-konfirmasi" style="flex:1;">Oke</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="pinOverlay" class="pin-overlay" style="display:none;">
+    <div class="pin-box">
+      <span class="brand-mark pin-mark">Rp</span>
+      <p class="pin-judul" id="pinJudul">Masukkan PIN</p>
+      <div class="pin-dots" id="pinDots">
+        <span class="pin-dot"></span>
+        <span class="pin-dot"></span>
+        <span class="pin-dot"></span>
+        <span class="pin-dot"></span>
+      </div>
+      <p class="pin-error" id="pinError">&nbsp;</p>
+      <div class="pin-keypad" id="pinKeypad">
+        <button type="button" class="pin-key" data-key="1">1</button>
+        <button type="button" class="pin-key" data-key="2">2</button>
+        <button type="button" class="pin-key" data-key="3">3</button>
+        <button type="button" class="pin-key" data-key="4">4</button>
+        <button type="button" class="pin-key" data-key="5">5</button>
+        <button type="button" class="pin-key" data-key="6">6</button>
+        <button type="button" class="pin-key" data-key="7">7</button>
+        <button type="button" class="pin-key" data-key="8">8</button>
+        <button type="button" class="pin-key" data-key="9">9</button>
+        <span></span>
+        <button type="button" class="pin-key" data-key="0">0</button>
+        <button type="button" class="pin-key pin-key-hapus" id="pinHapus">⌫</button>
       </div>
     </div>
   </div>
