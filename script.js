@@ -406,6 +406,38 @@ document.getElementById('modalImportLanjut').addEventListener('click', function 
   tampilkanPesan('Berhasil', 'Data berhasil dipulihkan!');
 });
 
+// === Tombol Back Android: tutup modal dulu, bukan langsung keluar app ===
+function modalSedangTerbuka() {
+  const daftarModal = ['modalKonfirmasi', 'modalImportKonfirmasi', 'modalPesan'];
+  return daftarModal.find(function (id) {
+    return document.getElementById(id).style.display === 'flex';
+  });
+}
+
+function tutupModalById(id) {
+  document.getElementById(id).style.display = 'none';
+}
+
+window.addEventListener('popstate', function () {
+  const modalTerbuka = modalSedangTerbuka();
+  if (modalTerbuka) {
+    tutupModalById(modalTerbuka);
+  }
+});
+
+const asliDisplayFlex = function (el) {
+  const observer = new MutationObserver(function () {
+    if (el.style.display === 'flex') {
+      history.pushState({ modal: true }, '');
+    }
+  });
+  observer.observe(el, { attributes: true, attributeFilter: ['style'] });
+};
+
+['modalKonfirmasi', 'modalImportKonfirmasi', 'modalPesan'].forEach(function (id) {
+  asliDisplayFlex(document.getElementById(id));
+});
+
 // Inisialisasi semua dropdown custom
 initCustomSelect('selectJenis');
 initCustomSelect('selectKategori');
@@ -418,12 +450,15 @@ const toggleThemeBtn = document.getElementById('toggleTheme');
 let isDark = localStorage.getItem('darkMode') === 'true';
 
 function terapkanTema() {
+  const metaTheme = document.querySelector('meta[name="theme-color"]');
   if (isDark) {
     document.body.classList.add('dark');
     toggleThemeBtn.textContent = '☀️';
+    if (metaTheme) metaTheme.setAttribute('content', '#1C1A16');
   } else {
     document.body.classList.remove('dark');
     toggleThemeBtn.textContent = '🌙';
+    if (metaTheme) metaTheme.setAttribute('content', '#F3EEE0');
   }
 }
 
@@ -434,6 +469,18 @@ toggleThemeBtn.addEventListener('click', function () {
 });
 
 terapkanTema();
+
+// === Getar Halus (Haptic Feedback) ===
+function getar() {
+  if (navigator.vibrate) {
+    navigator.vibrate(12);
+  }
+}
+
+document.addEventListener('click', function (e) {
+  const target = e.target.closest('button, .pin-key, .custom-select-option');
+  if (target) getar();
+});
 
 // === Kunci PIN ===
 const pinOverlay = document.getElementById('pinOverlay');
