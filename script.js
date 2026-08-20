@@ -10,6 +10,7 @@ const tombolBatal = document.getElementById('tombolBatal');
 let transaksi = JSON.parse(localStorage.getItem('transaksi')) || [];
 let sedangEditIndex = null;
 let indexMauDihapus = null;
+let dataImportSementara = null;
 
 // === Fungsi Dropdown Custom ===
 function initCustomSelect(id, onChange) {
@@ -136,7 +137,6 @@ function bulanKunciLokal(tanggalObj) {
 function renderRingkasanBulanan() {
   const wadahEl = document.getElementById('ringkasanBulanan');
 
-  // Kelompokkan transaksi per bulan, pakai waktu lokal (bukan UTC)
   const perBulan = {};
   transaksi.forEach(function (item) {
     if (!item.tanggal) return;
@@ -146,7 +146,6 @@ function renderRingkasanBulanan() {
     else perBulan[kunci].keluar += item.jumlah;
   });
 
-  // Buat daftar 6 bulan terakhir (termasuk bulan sekarang), meski datanya kosong
   const daftarBulan = [];
   const sekarang = new Date();
   for (let i = 5; i >= 0; i--) {
@@ -163,7 +162,6 @@ function renderRingkasanBulanan() {
     return;
   }
 
-  // Cari nilai terbesar dari semua bulan, untuk skala batang
   let nilaiTerbesar = 1;
   daftarBulan.forEach(function (b) {
     const data = perBulan[b.kunci] || { masuk: 0, keluar: 0 };
@@ -345,6 +343,16 @@ document.getElementById('tombolImportTrigger').addEventListener('click', functio
   inputImport.click();
 });
 
+function tampilkanPesan(judul, isi) {
+  document.getElementById('modalPesanJudul').textContent = judul;
+  document.getElementById('modalPesanIsi').textContent = isi;
+  document.getElementById('modalPesan').style.display = 'flex';
+}
+
+document.getElementById('modalPesanOke').addEventListener('click', function () {
+  document.getElementById('modalPesan').style.display = 'none';
+});
+
 inputImport.addEventListener('change', function (e) {
   const file = e.target.files[0];
   if (!file) return;
@@ -355,27 +363,38 @@ inputImport.addEventListener('change', function (e) {
       const dataBaru = JSON.parse(event.target.result);
 
       if (!Array.isArray(dataBaru)) {
-        alert('File backup tidak valid.');
+        tampilkanPesan('Gagal', 'File backup tidak valid.');
+        inputImport.value = '';
         return;
       }
 
-      const konfirmasi = confirm(
-        'Ditemukan ' + dataBaru.length + ' transaksi di file backup.\n' +
-        'Data ini akan MENGGANTI semua data yang ada sekarang. Lanjutkan?'
-      );
-
-      if (!konfirmasi) return;
-
-      transaksi = dataBaru;
-      localStorage.setItem('transaksi', JSON.stringify(transaksi));
-      render();
-      alert('Data berhasil dipulihkan!');
+      dataImportSementara = dataBaru;
+      document.getElementById('modalImportDetail').textContent =
+        'Ditemukan ' + dataBaru.length + ' transaksi di file backup. Data ini akan MENGGANTI semua data yang ada sekarang.';
+      document.getElementById('modalImportKonfirmasi').style.display = 'flex';
     } catch (err) {
-      alert('Gagal membaca file. Pastikan file backup tidak rusak.');
+      tampilkanPesan('Gagal', 'Gagal membaca file. Pastikan file backup tidak rusak.');
     }
     inputImport.value = '';
   };
   reader.readAsText(file);
+});
+
+document.getElementById('modalImportBatal').addEventListener('click', function () {
+  dataImportSementara = null;
+  document.getElementById('modalImportKonfirmasi').style.display = 'none';
+});
+
+document.getElementById('modalImportLanjut').addEventListener('click', function () {
+  if (dataImportSementara === null) return;
+
+  transaksi = dataImportSementara;
+  localStorage.setItem('transaksi', JSON.stringify(transaksi));
+  render();
+
+  dataImportSementara = null;
+  document.getElementById('modalImportKonfirmasi').style.display = 'none';
+  tampilkanPesan('Berhasil', 'Data berhasil dipulihkan!');
 });
 
 // Inisialisasi semua dropdown custom
